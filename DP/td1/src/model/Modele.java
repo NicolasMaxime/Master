@@ -1,16 +1,16 @@
 package model;
 
+import model.operation.*;
+import view.ExampleView;
+
 import java.util.Observable;
 
-public class Model extends Observable {
+public class Modele extends Observable {
     private Nombre res;
     private Nombre valeur;
     private OperationEntiere operation;
-    public static final int PLUS = -100;
-    public static final int MINUS = -200;
-    public static final int EQUAL = -400;
 
-    public Model(){
+    public Modele(){
         res = new NombreEntier(0);
         valeur = new NombreEntier(0);
         operation = null;
@@ -22,27 +22,35 @@ public class Model extends Observable {
     }
 
     public void setAction(int digit) {
-        if (digit == EQUAL) {
-            operation.setDroit(new NombreEntier(valeur.calculer()));
-            res.setValue(operation.calculer());
-            calculer();
-            valeur = new NombreEntier(0);
-        }
-        else if (digit == PLUS){
+        if (!valeur.isNull())
             res = valeur;
-            valeur.setValue(0);
-            operation = new Addition(new NombreEntier(valeur.calculer()), null);
+        if (digit == ExampleView.EQUAL) {
+            operation.setDroit(new NombreEntier(valeur));
+            res = new NombreEntier(operation.calculer());
+            operation = null;
         }
-        else if (digit == MINUS){
+        else {
+            switch (digit){
+                case ExampleView.PLUS:
+                    operation = new Addition(new NombreEntier(res), null);
+                break;
+                case ExampleView.MINUS:
+                    operation = new Soustraction(new NombreEntier(res), null);
+                break;
+                case ExampleView.MULT:
+                    operation = new Multiplication(new NombreEntier(res), null);
+                break;
+                default:
+                    operation = new Division(new NombreEntier(res), null);
+            }
             res = valeur;
-            valeur.setValue(0);
-            operation = new Soustraction(new NombreEntier(valeur.calculer()), null);
         }
+        valeur.setValue(0);
         update();
     }
 
 
-    public void calculer(){
+    public void printRes(){
         System.out.println("Resultat = " + operation.calculer());
     }
 
@@ -53,7 +61,15 @@ public class Model extends Observable {
 
     public String stringExampleView() {
         StringBuilder sb = new StringBuilder("");
-        sb.append(valeur.toString());
+        if (operation == null){
+            if (valeur.isNull())
+                sb.append(res);
+            else
+                sb.append(valeur);
+        }
+        else{
+            sb.append(operation).append(valeur);
+        }
         return sb.toString();
     }
 }

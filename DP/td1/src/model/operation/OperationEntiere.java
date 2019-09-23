@@ -1,4 +1,4 @@
-package model;
+package model.operation;
 
 public abstract class OperationEntiere {
     protected Nombre gauche;

@@ -1,4 +1,4 @@
-package model;
+package model.operation;
 
 public interface Nombre {
     void addDigit(int digit);

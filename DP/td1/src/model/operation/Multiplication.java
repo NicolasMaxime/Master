@@ -1,4 +1,4 @@
-package model;
+package model.operation;
 
 public class Multiplication extends OperationEntiere {
     public Multiplication(Nombre gauche, Nombre droit) {

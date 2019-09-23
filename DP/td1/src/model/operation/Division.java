@@ -1,4 +1,4 @@
-package model;
+package model.operation;
 
 public class Division extends OperationEntiere {
     public Division(Nombre gauche, Nombre droit) {

@@ -1,4 +1,4 @@
-package model;
+package model.operation;
 
 public class Soustraction extends OperationEntiere {
     public Soustraction(Nombre gauche, Nombre droit){

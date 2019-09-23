@@ -8,7 +8,7 @@ package view;
  *
  * @author cirstea
  */
-import model.Model;
+import model.Modele;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,22 +22,26 @@ public class ExampleView implements Observer{
     public static final int PLUS = -100;
     public static final int MINUS = -200;
     public static final int EQUAL = -400;
+    public static final int MULT = -500;
+    public static final int DIV = -600;
     // ...
     private JFrame frame = new JFrame("Calculator");
     private JPanel[] panels = new JPanel[6];
     private JTextField textField = new JTextField();
     private JButton[] numberButtons = new JButton[10];
     private JButton subtractButton = new JButton("-");
+    private JButton multButton = new JButton("x");
+    private JButton divButton = new JButton("/");
     private JButton addButton = new JButton("+");
-    private JButton equateButton = new JButton(" = ");
+    private JButton equateButton = new JButton("=");
 
-    public ExampleView(Model mod) {
+    public ExampleView(Modele mod) {
         // ...
         buildFrame(mod);
         mod.addObserver(this);
     }
 
-    public void buildFrame(Model mod) {
+    public void buildFrame(Modele mod) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel contentPane = (JPanel) frame.getContentPane();
@@ -65,7 +69,9 @@ public class ExampleView implements Observer{
         panels[1].add(numberButtons[8]);
         panels[1].add(numberButtons[9]);
         panels[1].add(addButton);
+        panels[1].add(multButton);
         addButton.addActionListener(new ExampleView.LocalListener(PLUS, mod));
+        multButton.addActionListener(new ExampleView.LocalListener(MULT, mod));
 
         // layout = FlowLayout.LEFT 
         panels[2].setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -74,6 +80,8 @@ public class ExampleView implements Observer{
         panels[2].add(numberButtons[6]);
         panels[2].add(subtractButton);
         subtractButton.addActionListener(new ExampleView.LocalListener(MINUS, mod));
+        panels[2].add(divButton);
+        divButton.addActionListener(new ExampleView.LocalListener(DIV, mod));
 
         // layout = FlowLayout.LEFT 
         panels[3].setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -98,16 +106,16 @@ public class ExampleView implements Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-        Model mod = (Model)observable;
+        Modele mod = (Modele)observable;
         textField.setText(mod.stringExampleView());
     }
 
     class LocalListener implements ActionListener {
 
         private int digit;
-        private Model mod;
+        private Modele mod;
 
-        public LocalListener(int digit, Model mod) {
+        public LocalListener(int digit, Modele mod) {
             this.digit = digit;
             this.mod = mod;
         }
@@ -117,7 +125,7 @@ public class ExampleView implements Observer{
             if (digit >= 0)
                 mod.addDigit(digit);
             else
-                mod.setOperande(digit);
+                mod.setAction(digit);
         }
     }
 }

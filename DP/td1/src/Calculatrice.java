@@ -1,11 +1,9 @@
-import model.Model;
+import model.Modele;
 import view.ExampleView;
-
-import java.util.Scanner;
 
 public class Calculatrice {
     public static void main(String[] args) {
-        Model mod = new Model();
+        Modele mod = new Modele();
         ExampleView ev = new ExampleView(mod);
     }
 }
