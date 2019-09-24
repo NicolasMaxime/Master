@@ -30,6 +30,9 @@ public class Modele extends Observable {
             operation = null;
         }
         else {
+            if (operation != null){
+                setAction(ExampleView.EQUAL);
+            }
             switch (digit){
                 case ExampleView.PLUS:
                     operation = new Addition(new NombreEntier(res), null);
@@ -54,7 +57,7 @@ public class Modele extends Observable {
         System.out.println("Resultat = " + operation.calculer());
     }
 
-    public void update(){
+    private void update(){
         setChanged();
         notifyObservers();
     }
